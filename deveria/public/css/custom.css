@@ -1,0 +1,12 @@
+.form-table td div{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-table td [type="submit"], .form-table td [type="button"]{
+    margin-top: 23px;
+}
+
+.cover {
+    width: 180px;
+}
