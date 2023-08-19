@@ -47,32 +47,35 @@ class AuthorRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Author[] Returns an array of Author objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getAllBy(array $criteria = [])
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        if (!empty($criteria)) {
+            return $this->findBy($criteria);
+        }
 
-    /*
-    public function findOneBySomeField($value): ?Author
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->findAll();
     }
-    */
+
+    public function getAll()
+    {
+        return $this->findAll();
+    }
+
+    public function getOneByid(int $id): ?Author
+    {
+        return $this->findOneBy(["id" => $id]);
+    }
+
+    public function getAllWithBooks()
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+
+        $queryBuilder
+            ->select('a.id', 'a.name', 'a.description', 'a.modifiedOn', 'a.createdOn', "GROUP_CONCAT(b.title SEPARATOR ', ') AS books")
+            ->leftJoin('a.books', 'b')
+            ->groupBy('a.id')
+        ;
+
+        return $queryBuilder->getQuery()->getArrayResult();
+    }
 }

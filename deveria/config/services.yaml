@@ -28,3 +28,9 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+doctrine:
+    orm:
+        dql:
+            string_functions:
+                group_concat: DoctrineExtensions\Query\Mysql\GroupConcat

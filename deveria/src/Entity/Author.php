@@ -64,6 +64,20 @@ class Author extends BaseEntity
         return $this->books;
     }
 
+    /**
+     * @return string
+     */
+    public function getBooksNames(): string
+    {
+        $books = [];
+
+        foreach ($this->books as $book) {
+            $books[] = $book->getTitle();
+        }
+
+        return implode(', ', $books);
+    }
+
     public function addBook(Book $book): self
     {
         if (!$this->books->contains($book)) {
@@ -81,5 +95,9 @@ class Author extends BaseEntity
         }
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->name;
     }
 }

@@ -6,31 +6,32 @@ use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
- * @ORM\Entity(repositoryClass=BookRepository::class)
+ * @ORM\Entity(repositoryClass=BookRepository::class)(repositoryClass=BookRepository::class)
  */
 class Book extends BaseEntity
 {
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private ?string $title;
 
     /**
      * @ORM\ManyToMany(targetEntity=Author::class, inversedBy="books")
      */
-    private $author;
+    private Collection $author;
 
     /**
      * @ORM\Column(type="string", length=512, nullable=true)
      */
-    private $cover;
+    private ?string $cover;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="integer")
      */
-    private $publishAt;
+    private int $publishAt;
 
     public function __construct()
     {
@@ -61,6 +62,7 @@ class Book extends BaseEntity
     {
         if (!$this->author->contains($author)) {
             $this->author[] = $author;
+            $author->addBook($this);
         }
 
         return $this;
@@ -85,15 +87,19 @@ class Book extends BaseEntity
         return $this;
     }
 
-    public function getPublishAt(): ?\DateTimeInterface
+    public function getPublishAt(): ?int
     {
         return $this->publishAt;
     }
 
-    public function setPublishAt(\DateTimeInterface $publishAt): self
+    public function setPublishAt(int $publishAt): self
     {
         $this->publishAt = $publishAt;
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->title;
     }
 }
