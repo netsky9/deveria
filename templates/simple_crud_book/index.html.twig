@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SimpleCrudController!{% endblock %}
+
+{% block body %}
+
+<div class="container py-3">
+    <h1><b>Simple CRUD</b></h1>
+    <hr>
+    <h2>Books</h2>
+
+    {{ form_errors(bookForm) }}
+
+    <table class="table">
+        {{ form_errors(bookFilterForm) }}
+
+        {{ form_start(bookFilterForm) }}
+        <thead class="form-table table-light">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col">{{ form_row(bookFilterForm.title) }}</th>
+            <th scope="col">{{ form_row(bookFilterForm.author) }}</th>
+            <th scope="col">{{ form_row(bookFilterForm.publishAtFrom) }}</th>
+            <th scope="col">{{ form_row(bookFilterForm.publishAtTo) }}</th>
+            <th scope="col"></th>
+            <th scope="col">{{ form_end(bookFilterForm) }}</th>
+            <th scope="col"><a href="{{ path('simple_crud_book') }}" class="btn btn-primary">Clear</a></th>
+        </tr>
+        </thead>
+        {{ form_errors(bookForm) }}
+    </table>
+    <br>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Cover</th>
+            <th scope="col">Title</th>
+            <th scope="col">Authors</th>
+            <th scope="col">Released</th>
+            <th scope="col">Modified on</th>
+            <th scope="col">Created on</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+            {% if books|length == 0 %}
+                <div style="text-align: center; width: 100%">Items not found</div>
+                <br>
+            {% endif %}
+            {% for key, book in books %}
+            <tr>
+                <th scope="row">{{ key + 1 }}</th>
+                <td><img src="{{ book.cover }}" class="rounded cover"></td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.authors }}</td>
+                <td>{{ book.publishAt }}</td>
+                <td>{{ book.modifiedOn | date("Y-m-d h:i:s") }}</td>
+                <td>{{ book.createdOn | date("Y-m-d h:i:s") }}</td>
+                <td><a href="{{ path('simple_crud_book_edit', {'id': book.id}) }}" type="button" class="btn btn-warning">edit</a></td>
+                <td><a href="{{ path('simple_crud_book_delete', {'id': book.id}) }}" type="button" class="btn btn-danger">delete</a></td>
+            </tr>
+            {% endfor %}
+
+            <tr class="form-table table-light">
+                {{ form_start(bookForm) }}
+                    <th scope="row">{{ books|length + 1 }}</th>
+                    <td>{{ form_row(bookForm.cover) }}</td>
+                    <td>{{ form_row(bookForm.title) }}</td>
+                    <td>{{ form_row(bookForm.author) }}</td>
+                    <td>{{ form_row(bookForm.publishAt) }}</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td></td>
+                    <td>{{ form_row(bookForm.save) }}</td>
+                {{ form_end(bookForm) }}
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
