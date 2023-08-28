@@ -1,0 +1,19 @@
+type Book {
+    id: ID!
+    title: String!
+    cover: String
+    publishAt: Int!
+    authors: [Author!]!
+}
+
+input CreateBook {
+    title: String!
+    cover: String
+    publishAt: Int!
+}
+
+input UpdateBook {
+    title: String
+    cover: String
+    publishAt: Int
+}

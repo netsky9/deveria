@@ -1,0 +1,8 @@
+type RootMutation {
+    createAuthor(author: CreateAuthor!): Author!
+    updateAuthor(id: ID!, author: UpdateAuthor!): Author!
+    deleteAuthor(id: ID!): ID!
+    createBook(book: CreateBook!): Book!
+    updateBook(id: ID!, book: UpdateBook!): Book!
+    deleteBook(id: ID!): ID!
+}

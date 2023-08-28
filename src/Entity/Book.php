@@ -22,7 +22,7 @@ class Book extends BaseEntity
     /**
      * @ORM\ManyToMany(targetEntity=Author::class, inversedBy="books")
      */
-    private Collection $author;
+    private Collection $authors;
 
     /**
      * @ORM\Column(type="string", length=512, nullable=true)
@@ -36,7 +36,7 @@ class Book extends BaseEntity
 
     public function __construct()
     {
-        $this->author = new ArrayCollection();
+        $this->authors = new ArrayCollection();
     }
 
     public function getTitle(): ?string
@@ -54,15 +54,15 @@ class Book extends BaseEntity
     /**
      * @return Collection<int, Author>
      */
-    public function getAuthor(): Collection
+    public function getAuthors(): Collection
     {
-        return $this->author;
+        return $this->authors;
     }
 
     public function addAuthor(Author $author): self
     {
-        if (!$this->author->contains($author)) {
-            $this->author[] = $author;
+        if (!$this->authors->contains($author)) {
+            $this->authors[] = $author;
             $author->addBook($this);
         }
 
@@ -71,7 +71,7 @@ class Book extends BaseEntity
 
     public function removeAuthor(Author $author): self
     {
-        $this->author->removeElement($author);
+        $this->authors->removeElement($author);
 
         return $this;
     }

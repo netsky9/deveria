@@ -23,7 +23,7 @@ class Author extends BaseEntity
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Book::class, mappedBy="author")
+     * @ORM\ManyToMany(targetEntity=Book::class, mappedBy="authors")
      */
     private $books;
 

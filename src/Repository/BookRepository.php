@@ -60,7 +60,7 @@ class BookRepository extends ServiceEntityRepository
 
         $queryBuilder
             ->select('b.id', 'b.title', 'b.cover', 'b.publishAt', 'b.createdOn', 'b.modifiedOn', "GROUP_CONCAT(a.name SEPARATOR ', ') AS authors")
-            ->leftJoin('b.author', 'a')
+            ->leftJoin('b.authors', 'a')
             ->groupBy('b.id')
         ;
 
